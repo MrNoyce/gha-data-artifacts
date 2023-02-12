@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      # To cache, the step has to be done before the item we want to cache
+      - name: Cache Project Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package.lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -24,6 +30,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache Project Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package.lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Build website
@@ -35,10 +46,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
-          # path: |
+          # path: | >> example of using multi files
           #   dist
           #   package.json
+          path: dist
 
   deploy:
     # required to download the assets
