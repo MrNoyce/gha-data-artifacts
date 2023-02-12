@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get Artifacts
-        uses: action/download-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: dist-files
       - name: Output dist content
